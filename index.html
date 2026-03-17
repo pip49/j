@@ -238,17 +238,20 @@ function toggleStep() {
 }
 
 
-    async function playDialogue() {
-        if (isSpeaking) window.speechSynthesis.cancel();
-        isSpeaking = true;
+async function playDialogue() {
+    window.speechSynthesis.cancel();
+    isSpeaking = true;
 
-        const dialogueData = studyData[lastIndex].full;
+    const data = studyData[lastIndex];
+    const player = document.getElementById('audio-player'); // 오디오 플레이어 가져오기
 
-        for (const line of dialogueData) {
-            await speakLine(line.t, line.s);
-        }
-        isSpeaking = false;
+    if (data.audio) {
+        player.currentTime = 0; // 재생 위치 초기화
+        player.play();          // <--- 이 줄이 있어야 실제로 소리가 나옵니다!
     }
+
+}
+
 
     function speakLine(text, speaker) {
         return new Promise((resolve) => {
